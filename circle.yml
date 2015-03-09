@@ -1,7 +1,0 @@
-dependencies:
-  override:
-    - npm install --dev
-
-test:
-  post:
-    - gulp

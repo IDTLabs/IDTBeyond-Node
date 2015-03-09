@@ -1,5 +1,4 @@
 var idtBeyondApi = require('../lib/idt-beyond');
-require("jasmine-as-promised")();
 
 describe('IDT Beyond API', function() {
   describe('instantiating the object', function(){
@@ -30,30 +29,20 @@ describe('IDT Beyond API', function() {
     });
   });
   describe('Once the object is instantiated', function(){
-    describe('should be able to interact with the API', function(){
-      describe('should error', function(){
-        it("if you call any API endpoints with an invalid appKey/appId", function(done) {
-          var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key'});
-          runs(
-              function() {
-                return idtBeyond.getProducts();
-              },
-              function checksExpections(result) {
-                expect(result.toEqual({success: false, message: 'asdfs'}));
-              });
-
-
-
-          //done();
-          //console.log(products)
-          //
-          //expect(function(){
-          //      //idtBeyond.getProducts();
-          //  done();
-          //}).toThrow();
-        });
-      });
-    });
+    //describe('should be able to interact with the API', function(){
+    //  describe('should error', function(){
+    //    it("if you call any API endpoints with an invalid appKey/appId", function(done) {
+    //      var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key'});
+    //      done();
+    //      //console.log(products)
+    //      //
+    //      expect(function(){
+    //        idtBeyond.getProducts();
+    //        done();
+    //      }).tobe({'stuff': "things"})
+    //    });
+    //  });
+    //});
 
   });
 
