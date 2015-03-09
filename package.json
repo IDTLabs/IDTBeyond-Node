@@ -4,7 +4,7 @@
   "description": "The official node package for interacting with the IDT Beyond API for performing a topup.",
   "main": "idt-beyond.js",
   "scripts": {
-    "test": "./node_modules/.bin/jasmine --reporter spec"
+    "test": "./node_modules/.bin/jasmine -verbose=true ./spec/*.js"
   },
   "repository": {
     "type": "git",
@@ -27,9 +27,11 @@
     "gulp": "^3.8.11",
     "gulp-jasmine": "^2.0.0",
     "jasmine": "^2.2.1",
+    "jasmine-as-promised": "0.0.8",
     "jasmine-node": "^1.14.5"
   },
   "dependencies": {
-    "request": "^2.53.0"
+    "request": "^2.53.0",
+    "when": "^3.7.2"
   }
 }
