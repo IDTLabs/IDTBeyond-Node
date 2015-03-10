@@ -83,6 +83,42 @@ describe('IDT Beyond API', function() {
         });
       });
 
+      describe('getBalance()', function(){
+        it("should call /v1/iatu/balance", function(done) {
+          var api = nock(url)
+              .matchHeader('x-idt-beyond-app-id', 'app-id')
+              .matchHeader('x-idt-beyond-app-key', 'app-key')
+              .get('/v1/iatu/balance');
+          var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
+          done();
+          expect(idtBeyond.getBalance().isDone()).toBe(true);
+        });
+      });
+
+      describe('getStatus()', function(){
+        it("should call /v1/status", function(done) {
+          var api = nock(url)
+              .matchHeader('x-idt-beyond-app-id', 'app-id')
+              .matchHeader('x-idt-beyond-app-key', 'app-key')
+              .get('/v1/iatu/balance');
+          var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
+          done();
+          expect(idtBeyond.getStatus().isDone()).toBe(true);
+        });
+      });
+
+      describe('getBillingInfo()', function(){
+        it("should call /v1/applications/payment-info", function(done) {
+          var api = nock(url)
+              .matchHeader('x-idt-beyond-app-id', 'app-id')
+              .matchHeader('x-idt-beyond-app-key', 'app-key')
+              .get('/v1/applications/payment-info');
+          var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
+          done();
+          expect(idtBeyond.getBillingInfo().isDone()).toBe(true);
+        });
+      });
+
       describe('getAllTopupsTotals()', function(){
         it("should call /v1/iatu/topups/reports/totals", function(done) {
           var api = nock(url)
@@ -92,6 +128,18 @@ describe('IDT Beyond API', function() {
           var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           done();
           expect(idtBeyond.getAllTopupsTotals({dateFrom: 'date-from', dateTo: 'date-to'}).isDone()).toBe(true);
+        });
+      });
+
+      describe('getAllCharges()', function(){
+        it("should call /v1/iatu/charges/reports/all", function(done) {
+          var api = nock(url)
+              .matchHeader('x-idt-beyond-app-id', 'app-id')
+              .matchHeader('x-idt-beyond-app-key', 'app-key')
+              .get('/v1/iatu/charges/reports/all?date_from=date-from&date_to=date-to');
+          var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
+          done();
+          expect(idtBeyond.getAllCharges({dateFrom: 'date-from', dateTo: 'date-to'}).isDone()).toBe(true);
         });
       });
 
