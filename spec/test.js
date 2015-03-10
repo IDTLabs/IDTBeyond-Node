@@ -73,10 +73,10 @@ describe('IDT Beyond API', function() {
           var api = nock(url)
               .matchHeader('x-idt-beyond-app-id', 'app-id')
               .matchHeader('x-idt-beyond-app-key', 'app-key')
-              .get('/v1/iatu/number-validator?country_code=CC&mobile_number=phone-number').reply(when.defer().resolve());
+              .get('/v1/iatu/number-validator?country_code=CC&mobile_number=phone-number').reply(when.defer().resolve({status: true}));
           var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           done();
-          expect(idtBeyond.validateNumber({countryCode: 'CC', mobileNumber: 'phone-number'})).toBe(200);
+          expect(idtBeyond.validateNumber({countryCode: 'CC', mobileNumber: 'phone-number'})).toBe(200, {status: true  });
         });
       });
       describe('getLocalValue()', function(){
@@ -94,6 +94,7 @@ describe('IDT Beyond API', function() {
       });
       describe('postTopup()', function(){
         it("should call /v1/iatu/topups", function(done) {
+          var deferred = when.defer();
           var api = nock(url)
               .matchHeader('x-idt-beyond-app-id', 'app-id')
               .matchHeader('x-idt-beyond-app-key', 'app-key')
@@ -102,9 +103,11 @@ describe('IDT Beyond API', function() {
                 return body.country_code === "CC" && body.carrier_code === "CasdC" &&
                     body.mobile_number === 'phone-number' &&  body.amount === 'amount' &&
                     body.terminal_id === "term-id";
-              }).reply(when.defer().resolve(200));
+              }).reply(when.defer().resolve(deferred.promise));
           var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
+          deferred.resolve({status: true});
           done();
+
           expect(idtBeyond.postTopup(
               {countryCode: 'CC', carrierCode: 'CC', amount: 'amount', phoneNumber: 'phone-number'})).toBe(200);
         });

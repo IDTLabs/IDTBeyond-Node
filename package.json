@@ -2,13 +2,13 @@
   "name": "idtbeyond-node",
   "version": "0.1.0",
   "description": "The official node package for interacting with the IDT Beyond API for performing a topup.",
-  "main": "idt-beyond.js",
+  "main": "lib/idt-beyond.js",
   "scripts": {
     "test": "./node_modules/.bin/jasmine -verbose=true ./spec/*.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/IDTLabs/idtbeyond-node"
+    "url": "https://github.com/IDTLabs/IDTBeyond-Node"
   },
   "keywords": [
     "idtbeyond",
@@ -18,11 +18,11 @@
     "topup"
   ],
   "author": "Robbie Holmes (robbiethegeek@gmail.com)",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/IDTLabs/idtbeyond-node/issues"
+    "url": "https://github.com/IDTLabs/IDTBeyond-Node/issues"
   },
-  "homepage": "https://github.com/IDTLabs/idtbeyond-node",
+  "homepage": "https://github.com/IDTLabs/IDTBeyond-Node",
   "devDependencies": {
     "gulp": "^3.8.11",
     "gulp-jasmine": "^2.0.0",
