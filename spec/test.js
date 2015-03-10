@@ -51,10 +51,10 @@ describe('IDT Beyond API', function() {
           var api = nock(url)
               .matchHeader('x-idt-beyond-app-id', 'app-id')
               .matchHeader('x-idt-beyond-app-key', 'app-key')
-              .get('/v1/iatu/products/reports/all').reply(200);
+              .get('/v1/iatu/products/reports/all');
           var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           done();
-          expect(idtBeyond.getProducts()).toBe(200);
+          expect(idtBeyond.getProducts().isDone()).toBe(true);
         });
       });
       describe('getProducts()', function(){
@@ -62,10 +62,10 @@ describe('IDT Beyond API', function() {
           var api = nock(url)
               .matchHeader('x-idt-beyond-app-id', 'app-id')
               .matchHeader('x-idt-beyond-app-key', 'app-key')
-              .get('/v1/iatu/products/reports/all').reply(200);
+              .get('/v1/iatu/products/reports/all');
           var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           done();
-          expect(idtBeyond.getProducts()).toBe(200);
+          expect(idtBeyond.getProducts().isDone()).toBe(true);
         });
       });
       describe('validateNumber()', function(){
@@ -73,10 +73,10 @@ describe('IDT Beyond API', function() {
           var api = nock(url)
               .matchHeader('x-idt-beyond-app-id', 'app-id')
               .matchHeader('x-idt-beyond-app-key', 'app-key')
-              .get('/v1/iatu/number-validator?country_code=CC&mobile_number=phone-number').reply(when.defer().resolve({status: true}));
+              .get('/v1/iatu/number-validator?country_code=CC&mobile_number=phone-number');
           var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           done();
-          expect(idtBeyond.validateNumber({countryCode: 'CC', mobileNumber: 'phone-number'})).toBe(200, {status: true  });
+          expect(idtBeyond.validateNumber({countryCode: 'CC', mobileNumber: 'phone-number'}).isDone()).toBe(true);
         });
       });
       describe('getLocalValue()', function(){
@@ -85,11 +85,10 @@ describe('IDT Beyond API', function() {
               .matchHeader('x-idt-beyond-app-id', 'app-id')
               .matchHeader('x-idt-beyond-app-key', 'app-key')
               .get(
-                '/v1/iatu/products/reports/local-value?carrier_code=CC&country_code=CC&amount=amount&currency_code=USD')
-              .reply(when.defer().resolve(200));
+                '/v1/iatu/products/reports/local-value?carrier_code=CC&country_code=CC&amount=amount&currency_code=USD');
           var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           done();
-          expect(idtBeyond.getLocalValue({countryCode: 'CC', carrierCode: 'CC', amount: 'amount'})).toBe(200);
+          expect(idtBeyond.getLocalValue({countryCode: 'CC', carrierCode: 'CC', amount: 'amount'}).isDone()).toBe(true);
         });
       });
       describe('postTopup()', function(){
@@ -103,13 +102,13 @@ describe('IDT Beyond API', function() {
                 return body.country_code === "CC" && body.carrier_code === "CasdC" &&
                     body.mobile_number === 'phone-number' &&  body.amount === 'amount' &&
                     body.terminal_id === "term-id";
-              }).reply(when.defer().resolve(deferred.promise));
+              });
           var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           deferred.resolve({status: true});
           done();
 
           expect(idtBeyond.postTopup(
-              {countryCode: 'CC', carrierCode: 'CC', amount: 'amount', phoneNumber: 'phone-number'})).toBe(200);
+              {countryCode: 'CC', carrierCode: 'CC', amount: 'amount', phoneNumber: 'phone-number'}).isDone()).toBe(true);
         });
       });
     });
