@@ -44,6 +44,7 @@ describe('IDT Beyond API', function() {
       });
     });
   });
+
   describe('Once the object is instantiated', function(){
     describe('should be able to interact with the API', function(){
       describe('getProducts()', function(){
@@ -57,6 +58,7 @@ describe('IDT Beyond API', function() {
           expect(idtBeyond.getProducts().isDone()).toBe(true);
         });
       });
+
       describe('getProducts()', function(){
         it("should call /v1/iatu/products/reports/all", function(done) {
           var api = nock(url)
@@ -68,6 +70,7 @@ describe('IDT Beyond API', function() {
           expect(idtBeyond.getProducts().isDone()).toBe(true);
         });
       });
+
       describe('validateNumber()', function(){
         it("should call /v1/iatu/number-validator", function(done) {
           var api = nock(url)
@@ -79,6 +82,19 @@ describe('IDT Beyond API', function() {
           expect(idtBeyond.validateNumber({countryCode: 'CC', mobileNumber: 'phone-number'}).isDone()).toBe(true);
         });
       });
+
+      describe('getAllTopupsTotals()', function(){
+        it("should call /v1/iatu/topups/reports/totals", function(done) {
+          var api = nock(url)
+              .matchHeader('x-idt-beyond-app-id', 'app-id')
+              .matchHeader('x-idt-beyond-app-key', 'app-key')
+              .get('/v1/iatu/number-validator?date_from=date-from&date_to=date-to');
+          var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
+          done();
+          expect(idtBeyond.getAllTopupsTotals({dateFrom: 'date-from', dateTo: 'date-to'}).isDone()).toBe(true);
+        });
+      });
+
       describe('getLocalValue()', function(){
         it("should call /v1/iatu/products/reports/local-value", function(done) {
           var api = nock(url)
@@ -91,6 +107,7 @@ describe('IDT Beyond API', function() {
           expect(idtBeyond.getLocalValue({countryCode: 'CC', carrierCode: 'CC', amount: 'amount'}).isDone()).toBe(true);
         });
       });
+
       describe('postTopup()', function(){
         it("should call /v1/iatu/topups", function(done) {
           var deferred = when.defer();
@@ -110,6 +127,7 @@ describe('IDT Beyond API', function() {
               {countryCode: 'CC', carrierCode: 'CC', amount: 'amount', phoneNumber: 'phone-number'}).isDone()).toBe(true);
         });
       });
+
       describe('reverseTopup()', function(){
         it("should call /v1/iatu/topups/reverse", function(done) {
           var deferred = when.defer();
@@ -128,8 +146,27 @@ describe('IDT Beyond API', function() {
               {clientTransactionId: 'client-transaction-id', toServiceNumber: 'to-service-number'}).isDone()).toBe(true);
         });
       });
-    });
 
+      describe('clientTransactionIdSearch()', function(){
+        it("should call /v1/iatu/topups/reports", function(done) {
+          var deferred = when.defer();
+          var api = nock(url)
+              .matchHeader('x-idt-beyond-app-id', 'app-id')
+              .matchHeader('x-idt-beyond-app-key', 'app-key')
+              .post('/v1/iatu/topups/reports', function(body){
+                return body.client_transaction_id === "client-transaction-id" &&
+                    body.date_from === "date-from" && body.date_to === 'data-to';
+              });
+          var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
+          deferred.resolve({status: true});
+          done();
+
+          expect(idtBeyond.reverseTopup(
+              {clientTransactionId: 'client-transaction-id', dateFrom: 'date-from', dataTo: 'date-to'}).isDone())
+              .toBe(true);
+        });
+      });
+    });
   });
 
 });
