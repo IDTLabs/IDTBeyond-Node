@@ -2,7 +2,7 @@ var idtBeyondApi = require('../lib/idt-beyond');
 var nock = require('nock');
 var when = require('when');
 
-var url = 'https://api.idtbeyond.com';
+var url = 'https://api.idtBeyondIatu.com';
 
 describe('IDT Beyond API', function() {
   describe('instantiating the object', function(){
@@ -10,37 +10,37 @@ describe('IDT Beyond API', function() {
     describe('should error', function(){
       it("if you don't pass an options object", function() {
         expect(function(){
-          idtBeyondApi.initialize()
+          idtBeyondApi.initializeIatu()
         }).toThrow();
       });
 
       it("if there in no appId in the options object", function(){
         expect(function(){
-          idtBeyondApi.initialize({appKey: 'app-key', termId: 'term-id'})
+          idtBeyondApi.initializeIatu({appKey: 'app-key', termId: 'term-id'})
         }).toThrow();
       });
 
       it("if there in no appKey in the options object", function(){
         expect(function(){
-          idtBeyondApi.initialize({appId: 'app-id', termId: 'term-id'})
+          idtBeyondApi.initializeIatu({appId: 'app-id', termId: 'term-id'})
         }).toThrow();
       });
 
       it("if there in no termId in the options object", function(){
         expect(function(){
-          idtBeyondApi.initialize({appKey: 'app-key', appId: 'app-id'})
+          idtBeyondApi.initializeIatu({appKey: 'app-key', appId: 'app-id'})
         }).toThrow();
       });
     });
 
     describe('should be successful', function(){
       it("if you pass an options object with both an appId and appKey", function() {
-        var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
-        expect(idtBeyond).toEqual(jasmine.any(Object));
-        expect(idtBeyond.hasOwnProperty('getAppId')).toBe(true);
-        expect(idtBeyond.hasOwnProperty('getAppKey')).toBe(true);
-        expect(idtBeyond.getAppId()).toBe('app-id');
-        expect(idtBeyond.getAppKey()).toBe('app-key');
+        var idtBeyondIatu = idtBeyondApi.initializeIatu({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
+        expect(idtBeyondIatu).toEqual(jasmine.any(Object));
+        expect(idtBeyondIatu.hasOwnProperty('getAppId')).toBe(true);
+        expect(idtBeyondIatu.hasOwnProperty('getAppKey')).toBe(true);
+        expect(idtBeyondIatu.getAppId()).toBe('app-id');
+        expect(idtBeyondIatu.getAppKey()).toBe('app-key');
       });
     });
   });
@@ -53,9 +53,9 @@ describe('IDT Beyond API', function() {
               .matchHeader('x-idt-beyond-app-id', 'app-id')
               .matchHeader('x-idt-beyond-app-key', 'app-key')
               .get('/v1/iatu/products/reports/all');
-          var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
+          var idtBeyondIatu = idtBeyondApi.initializeIatu({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           done();
-          expect(idtBeyond.getProducts().isDone()).toBe(true);
+          expect(idtBeyondIatu.getProducts().isDone()).toBe(true);
         });
       });
 
@@ -65,9 +65,9 @@ describe('IDT Beyond API', function() {
               .matchHeader('x-idt-beyond-app-id', 'app-id')
               .matchHeader('x-idt-beyond-app-key', 'app-key')
               .get('/v1/iatu/products/reports/all');
-          var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
+          var idtBeyondIatu = idtBeyondApi.initializeIatu({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           done();
-          expect(idtBeyond.getProducts().isDone()).toBe(true);
+          expect(idtBeyondIatu.getProducts().isDone()).toBe(true);
         });
       });
 
@@ -77,9 +77,9 @@ describe('IDT Beyond API', function() {
               .matchHeader('x-idt-beyond-app-id', 'app-id')
               .matchHeader('x-idt-beyond-app-key', 'app-key')
               .get('/v1/iatu/number-validator?country_code=CC&mobile_number=phone-number');
-          var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
+          var idtBeyondIatu = idtBeyondApi.initializeIatu({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           done();
-          expect(idtBeyond.validateNumber({countryCode: 'CC', mobileNumber: 'phone-number'}).isDone()).toBe(true);
+          expect(idtBeyondIatu.validateNumber({countryCode: 'CC', mobileNumber: 'phone-number'}).isDone()).toBe(true);
         });
       });
 
@@ -89,9 +89,9 @@ describe('IDT Beyond API', function() {
               .matchHeader('x-idt-beyond-app-id', 'app-id')
               .matchHeader('x-idt-beyond-app-key', 'app-key')
               .get('/v1/iatu/balance');
-          var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
+          var idtBeyondIatu = idtBeyondApi.initializeIatu({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           done();
-          expect(idtBeyond.getBalance().isDone()).toBe(true);
+          expect(idtBeyondIatu.getBalance().isDone()).toBe(true);
         });
       });
 
@@ -101,9 +101,9 @@ describe('IDT Beyond API', function() {
               .matchHeader('x-idt-beyond-app-id', 'app-id')
               .matchHeader('x-idt-beyond-app-key', 'app-key')
               .get('/v1/iatu/balance');
-          var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
+          var idtBeyondIatu = idtBeyondApi.initializeIatu({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           done();
-          expect(idtBeyond.getStatus().isDone()).toBe(true);
+          expect(idtBeyondIatu.getStatus().isDone()).toBe(true);
         });
       });
 
@@ -113,9 +113,9 @@ describe('IDT Beyond API', function() {
               .matchHeader('x-idt-beyond-app-id', 'app-id')
               .matchHeader('x-idt-beyond-app-key', 'app-key')
               .get('/v1/applications/payment-info');
-          var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
+          var idtBeyondIatu = idtBeyondApi.initializeIatu({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           done();
-          expect(idtBeyond.getBillingInfo().isDone()).toBe(true);
+          expect(idtBeyondIatu.getBillingInfo().isDone()).toBe(true);
         });
       });
 
@@ -125,9 +125,9 @@ describe('IDT Beyond API', function() {
               .matchHeader('x-idt-beyond-app-id', 'app-id')
               .matchHeader('x-idt-beyond-app-key', 'app-key')
               .get('/v1/iatu/number-validator?date_from=date-from&date_to=date-to');
-          var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
+          var idtBeyondIatu = idtBeyondApi.initializeIatu({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           done();
-          expect(idtBeyond.getAllTopupsTotals({dateFrom: 'date-from', dateTo: 'date-to'}).isDone()).toBe(true);
+          expect(idtBeyondIatu.getAllTopupsTotals({dateFrom: 'date-from', dateTo: 'date-to'}).isDone()).toBe(true);
         });
       });
 
@@ -137,9 +137,9 @@ describe('IDT Beyond API', function() {
               .matchHeader('x-idt-beyond-app-id', 'app-id')
               .matchHeader('x-idt-beyond-app-key', 'app-key')
               .get('/v1/iatu/charges/reports/all?date_from=date-from&date_to=date-to');
-          var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
+          var idtBeyondIatu = idtBeyondApi.initializeIatu({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           done();
-          expect(idtBeyond.getAllCharges({dateFrom: 'date-from', dateTo: 'date-to'}).isDone()).toBe(true);
+          expect(idtBeyondIatu.getAllCharges({dateFrom: 'date-from', dateTo: 'date-to'}).isDone()).toBe(true);
         });
       });
 
@@ -150,9 +150,9 @@ describe('IDT Beyond API', function() {
               .matchHeader('x-idt-beyond-app-key', 'app-key')
               .get(
                 '/v1/iatu/products/reports/local-value?carrier_code=CC&country_code=CC&amount=amount&currency_code=USD');
-          var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
+          var idtBeyondIatu = idtBeyondApi.initializeIatu({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           done();
-          expect(idtBeyond.getLocalValue({countryCode: 'CC', carrierCode: 'CC', amount: 'amount'}).isDone()).toBe(true);
+          expect(idtBeyondIatu.getLocalValue({countryCode: 'CC', carrierCode: 'CC', amount: 'amount'}).isDone()).toBe(true);
         });
       });
 
@@ -167,11 +167,11 @@ describe('IDT Beyond API', function() {
                     body.mobile_number === 'phone-number' &&  body.amount === 'amount' &&
                     body.terminal_id === "term-id";
               });
-          var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
+          var idtBeyondIatu = idtBeyondApi.initializeIatu({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           deferred.resolve({status: true});
           done();
 
-          expect(idtBeyond.postTopup(
+          expect(idtBeyondIatu.postTopup(
               {countryCode: 'CC', carrierCode: 'CC', amount: 'amount', phoneNumber: 'phone-number'}).isDone()).toBe(true);
         });
       });
@@ -186,11 +186,11 @@ describe('IDT Beyond API', function() {
                 return body.client_transaction_id === "client-transaction-id" &&
                     body.to_service_number === "to-service-number";
               });
-          var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
+          var idtBeyondIatu = idtBeyondApi.initializeIatu({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           deferred.resolve({status: true});
           done();
 
-          expect(idtBeyond.reverseTopup(
+          expect(idtBeyondIatu.reverseTopup(
               {clientTransactionId: 'client-transaction-id', toServiceNumber: 'to-service-number'}).isDone()).toBe(true);
         });
       });
@@ -205,11 +205,11 @@ describe('IDT Beyond API', function() {
                 return body.client_transaction_id === "client-transaction-id" &&
                     body.date_from === "date-from" && body.date_to === 'data-to';
               });
-          var idtBeyond = idtBeyondApi.initialize({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
+          var idtBeyondIatu = idtBeyondApi.initializeIatu({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           deferred.resolve({status: true});
           done();
 
-          expect(idtBeyond.reverseTopup(
+          expect(idtBeyondIatu.reverseTopup(
               {clientTransactionId: 'client-transaction-id', dateFrom: 'date-from', dataTo: 'date-to'}).isDone())
               .toBe(true);
         });
