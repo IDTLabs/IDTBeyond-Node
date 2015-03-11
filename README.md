@@ -2,6 +2,7 @@
 
 [![Join the chat at https://gitter.im/IDTLabs/idtbeyond-node](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/IDTLabs/idtbeyond-node?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Circle CI](https://circleci.com/gh/IDTLabs/IDTBeyond-Node/tree/master.svg?style=svg)](https://circleci.com/gh/IDTLabs/IDTBeyond-Node/tree/master)
+
 [![NPM](https://nodei.co/npm/idtbeyond.png?downloads=true)](https://nodei.co/npm/idtbeyond/)
 
 The official node package for interacting with the IDT Beyond API.
@@ -73,14 +74,16 @@ the promise's result*
 ```
 
 ## Get all products
+This endpoint retrieves a current list of products offered by our IATU API.
 
 **Request:**
 
 ```javascript
-PLACE CODE HERE
+idtBeyond.getProducts().then(function(products){ ... });
 ```
-
-> Response:
+*The **products** variable inside the then method's callback will containd
+the promise's result*
+**Response:**
 
 ```json
 [
@@ -109,54 +112,32 @@ PLACE CODE HERE
 ]
 ``` 
 
-This endpoint retrieves a current list of products offered by our IATU API.
 
-### Endpoint:
+## Local Value
+Get the local value of a particular product.
 
-`GET /v1/iatu/products/reports/all`
-
-####Headers
-
-Parameter | Required | Type | Description
---------- | ------- | ---- | -----------
-x-idt-beyond-app-id | true | header | The ID of the application you would like to use. __Use:__ `x-idt-beyond-app-id: APP-ID` (__Ex:__ If your APP-ID is 3456c92, **x-idt-beyond-app-id: 3456c92**)
-x-idt-beyond-app-key | true | header | One of the valid keys for the application you would like to use. __Use:__ `x-idt-beyond-app-key: APP-KEY` (__Ex:__ If your APP-KEY is abcd1234efgh56789ijkl, **x-idt-beyond-app-key: abcd1234efgh56789ijkl**)
-
-
-## Products (Local Value)
-
-> Request:
+**Request:**
 
 ```javascript
-PLACE CODE HERE
+idtBeyond.getLocalValue({carrierCode: 'Claro', countryCode: 'GT', amount: 500, currecncyCode: 'USD'}).then(function(result){ ... });
 ```
+*The **result** variable inside the then method's callback will containd
+the promise's result*
 
-> Response:
+**Response:**
 
 ```json
-{
-   "carrier_code":"Tigo",
-   "country_code":"CO",
-   "amount":"1000",
-   "currency_code":"USD",
-   "local_currency":"COP",
-   "local_amount":"1800000",
-   "divisor":"100"
+{	
+	"carrier_code":"Claro",
+	"country_code":"GT",
+	"amount":"500",
+	"currency_code":"USD",
+	"local_currency":"GTQ",
+	"local_amount":"3965",
+	"divisor":"100"
 }
 ```
 
-Get the local value of a particular product.
-
-### Endpoint:
-
-`GET /v1/iatu/products/reports/local_value`
-
-####Headers
-
-Parameter | Required | Content-type | Description
---------- | ------- | ---- | -----------
-x-idt-beyond-app-id | true | header | The ID of the application you would like to use. __Use:__ `x-idt-beyond-app-id: APP-ID` (__Ex:__ If your APP-ID is 3456c92, **x-idt-beyond-app-id: 3456c92**)
-x-idt-beyond-app-key | true | header | One of the valid keys for the application you would like to use. __Use:__ `x-idt-beyond-app-key: APP-KEY` (__Ex:__ If your APP-KEY is abcd1234efgh56789ijkl, **x-idt-beyond-app-key: abcd1234efgh56789ijkl**)
 
 ####Body Parameters
 
@@ -167,19 +148,19 @@ carrierCode | true | string | application/json | Name of the mobile carrier. Ex:
 currencyCode | true | string | application/json | The currency code (ISO 4217) on the product you are querying. Ex: USD
 amount | true | integer | application/json | The amount of the product you would like to get the value of. Ex: 1000 = $10.00 (in cents).
 
-<aside class="notice">
-Query strings follow the URL with the `?`, and  are strung together with the `&` symbol.
-</aside>
 
 ## Balance
+This call allows you get the balance on a specific application. 
 
-> Request:
+**Request:**
 
 ```javascript
-PLACE CODE HERE
+idtBeyond.getBalance().done(function(results) { ... });
 ```
+*The **results** variable inside the then method's callback will containd
+the promise's result*
 
-> Response:
+**Response:**
 
 ```json
 {
@@ -190,28 +171,16 @@ PLACE CODE HERE
 }
 ```
 
-This call allows you get the balance on a specific application. 
+## Topup
 
-### Endpoint:
-
-`GET /v1/iatu/balance`
-
-####Headers
-
-Parameter | Required | Type | Description
---------- | ------- | ---- | -----------
-x-idt-beyond-app-id | true | header | The ID of the application you would like to use. __Use:__ `x-idt-beyond-app-id: APP-ID` (__Ex:__ If your APP-ID is 3456c92, **x-idt-beyond-app-id: 3456c92**)
-x-idt-beyond-app-key | true | header | One of the valid keys for the application you would like to use. __Use:__ `x-idt-beyond-app-key: APP-KEY` (__Ex:__ If your APP-KEY is abcd1234efgh56789ijkl, **x-idt-beyond-app-key: abcd1234efgh56789ijkl**)
-
-## Topups
-
-> Request:
+This is how you topup a phone in another country.
+**Request:**
 
 ```javascript
 PLACE CODE HERE
 ```
 
-> Response:
+**Response:**
 
 ```json
 {
@@ -236,19 +205,6 @@ PLACE CODE HERE
    "from_service_number":"9999999999"
 }
 ```
-
-This is how you topup a phone in another country.
-
-### Endpoint:
-
-`POST /v1/iatu/topups`
-
-####Headers
-
-Parameter | Required | Type | Description
-------- | ------- | ---- | ---------
-x-idt-beyond-app-id | true | header | The ID of the application you would like to use. __Use:__ `x-idt-beyond-app-id: APP-ID` (__Ex:__ If your APP-ID is 3456c92, **x-idt-beyond-app-id: 3456c92**)
-x-idt-beyond-app-key | true | header | One of the valid keys for the application you would like to use. __Use:__ `x-idt-beyond-app-key: APP-KEY` (__Ex:__ If your APP-KEY is abcd1234efgh56789ijkl, **x-idt-beyond-app-key: abcd1234efgh56789ijkl**)
 
 ####Body Parameters
 

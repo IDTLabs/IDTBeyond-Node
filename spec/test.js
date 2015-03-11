@@ -152,7 +152,8 @@ describe('IDT Beyond API', function() {
                 '/v1/iatu/products/reports/local-value?carrier_code=CC&country_code=CC&amount=amount&currency_code=USD');
           var idtBeyondIatu = idtBeyondApi.initializeIatu({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           done();
-          expect(idtBeyondIatu.getLocalValue({countryCode: 'CC', carrierCode: 'CC', amount: 'amount'}).isDone()).toBe(true);
+          expect(idtBeyondIatu.getLocalValue(
+              {countryCode: 'CC', carrierCode: 'CC', amount: 'amount', currencyCode: 'USD'}).isDone()).toBe(true);
         });
       });
 
