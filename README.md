@@ -119,7 +119,7 @@ Get the local value of a particular product.
 **Request:**
 
 ```javascript
-idtBeyond.getLocalValue({carrierCode: 'Claro', countryCode: 'GT', amount: 500, currecncyCode: 'USD'}).then(function(result){ ... });
+idtBeyondIatu.getLocalValue({carrierCode: 'Claro', countryCode: 'GT', amount: 500, currecncyCode: 'USD'}).then(function(result){ ... });
 ```
 *The **result** variable inside the then method's callback will containd
 the promise's result*
@@ -139,7 +139,7 @@ the promise's result*
 ```
 
 
-####Body Parameters
+####IParameters
 
 Parameter | Required | Class | Content-type | Description
 --------- | ------- | ----- | -------| -----------
@@ -155,9 +155,9 @@ This call allows you get the balance on a specific application.
 **Request:**
 
 ```javascript
-idtBeyond.getBalance().done(function(results) { ... });
+idtBeyondIatu.getBalance().done(function(results) { ... });
 ```
-*The **results** variable inside the then method's callback will containd
+*The **results** variable inside the then method's callback will contained
 the promise's result*
 
 **Response:**
@@ -177,8 +177,10 @@ This is how you topup a phone in another country.
 **Request:**
 
 ```javascript
-PLACE CODE HERE
+idtBeyondIatu.postTopup({countryCode: 'GT', carrierCode: 'Claro', amount: 1000, phoneNumber: '1234567890'}).then(function(result) { ... });
 ```
+*The **result** variable inside the then method's callback will containd
+the promise's result*
 
 **Response:**
 
@@ -186,13 +188,13 @@ PLACE CODE HERE
 {
    "success":true,
    "client_transaction_id":"trans_id_12345",
-   "transaction_id":"3114555",
-   "amount":500,
+   "transaction_id":"123345678",
+   "amount":1000,
    "currency_divisor":"100",
    "currency_symbol":"$",
    "wholesaler_balance":0,
    "wholesaler_commission":100,
-   "local_amount":3965,
+   "local_amount":7934,
    "local_currency":"GTQ",
    "local_divisor":"100",
    "plan":"Sandbox",
@@ -200,38 +202,33 @@ PLACE CODE HERE
    "carrier_code":"Claro",
    "country_code":"GT",
    "country_name":"Guatemala",
-   "mobile_number":50212345678,
-   "to_service_number":"01036819223",
+   "mobile_number":1234567890,
+   "to_service_number":"0987654321",
    "from_service_number":"9999999999"
 }
 ```
 
-####Body Parameters
+####Parameters
 
 Parameter | Required | Class | Type | Description
 --------- | ------- | ---- | ---------- | -----------
 countryCode | true | string | application/json | 2-digit code of the country in ISO 3166 format. (Ex: **GT** for Guatemala).
 carrierCode | true | string | application/json | Name of the mobile carrier. (Ex: **Claro**).
 amount | true | integer | application/json | This is the amount, in cents, of the product you are purchasing. (Ex: **500** = $5.00).
-mobileNumber | true | integer | application/json | Mobile number to topup. VALIDATE prior to submission. (Ex: **50312345678**).
-carrierCode | true | string | application/json | Name of the mobile carrier. (Ex: **Claro**).
-plan | true | string | application/json | The Application plan being used: **Sandbox** or **Production**
-clientTransactionId | true | string | application/json | A __unique__ id you use to track topups (Limit of 20 characters)
-terminalId | false | string | application/json | __Optional__ ID for the Terminal used to perform the topup
-
-<aside class="notice">
-On a POST, the `Content-type` is `application/json`, and the parameters are contained in the body.
-</aside>
+phoneNumber | true | integer | application/json | Mobile number to topup. VALIDATE prior to submission. (Ex: **50312345678**).
 
 ##Topups Reports (all)
 
-> Request:
+**Request:**
 
 ```javascript
-PLACE CODE HERE
+idtBeyondIatu.getAllTopups({dateFrom:'2015-03-01', dateTo:'2015-03-11'}).then(function(topups){ ... });
 ```
 
-> Response:
+*The **topups** variable inside the then method's callback will containd
+the promise's result*
+
+**Response:**
 
 ```json
 {
@@ -269,27 +266,12 @@ PLACE CODE HERE
 
 This will return both the totals report, and the transactions during the dates requested.
 
-### Endpoint:
-
-`GET /v1/iatu/topups/reports/all`
-
-####Headers
-
-Parameter | Required | Type | Description
---------- | ------- | ---- | -----------
-x-idt-beyond-app-id | true | header | The ID of the application you would like to use. __Use:__ `x-idt-beyond-app-id: APP-ID` (__Ex:__ If your APP-ID is 3456c92, **x-idt-beyond-app-id: 3456c92**)
-x-idt-beyond-app-key | true | header | One of the valid keys for the application you would like to use. __Use:__ `x-idt-beyond-app-key: APP-KEY` (__Ex:__ If your APP-KEY is abcd1234efgh56789ijkl, **x-idt-beyond-app-key: abcd1234efgh56789ijkl**)
-
-####Query String Parameters
+####Parameters
 
 Parameter | Required | Type | Description
 --------- | ------- | ----- | -----------
 dateFrom | true | query | YYYY-MM-DD format. Starts at 00:00:00 Eastern Time (ET). (Ex: 2015-12-01).
 dateTo | true | query | YYYY-MM-DD format. Ends at 23:59:59 Eastern Time (ET). (Ex: 2015-12-01).
-
-<aside class="notice">
-Query strings follow the URL with the `?`, and  are strung together with the `&` symbol.
-</aside>
 
 <aside class="success">
 Remember — All date_to and date_from queries are in Eastern Time (ET), by default.
@@ -298,13 +280,18 @@ Remember — All date_to and date_from queries are in Eastern Time (ET), by defa
 
 ##Topups Reports (Totals)
 
-> Request:
+This returns a report of topups totals, within a given time period. 
+
+**Request:**
 
 ```javascript
-PLACE CODE HERE
+idtBeyondIatu.getAllTopupsTotals({dateFrom:'2015-03-01', dateTo:'2015-03-11'}).then(function(topups){ ... });
 ```
 
-> Response:
+*The **topups** variable inside the then method's callback will containd
+the promise's result*
+
+**Response:**
 
 ```json
 {
@@ -325,43 +312,28 @@ PLACE CODE HERE
 }
 ```
 
-This returns a report of topups totals, within a given time period, 
-
-### Endpoint
-
-`GET /v1/iatu/topups/reports/totals`
-
-####Headers
-
-Parameter | Required | Type | Description
---------- | ------- | ---- | -----------
-x-idt-beyond-app-id | true | header | The ID of the application you would like to use. __Use:__ `x-idt-beyond-app-id: APP-ID` (__Ex:__ If your APP-ID is 3456c92, **x-idt-beyond-app-id: 3456c92**)
-x-idt-beyond-app-key | true | header | One of the valid keys for the application you would like to use. __Use:__ `x-idt-beyond-app-key: APP-KEY` (__Ex:__ If your APP-KEY is abcd1234efgh56789ijkl, **x-idt-beyond-app-key: abcd1234efgh56789ijkl**)
-
-####Query String Parameters
+####Parameters
 
 Parameter | Required | Type | Description
 --------- | ------- | ----- | -----------
 dateFrom | true | query | YYYY-MM-DD format. Starts at 00:00:00 Eastern Time (ET). (Ex: 2015-12-01).
 dateTo | true | query | YYYY-MM-DD format. Ends at 23:59:59 Eastern Time (ET). (Ex: 2015-12-01).
 
-<aside class="notice">
-Query strings follow the URL with the `?`, and are strung together with the `&` symbol.
-</aside>
-
 <aside class="success">
 Remember — All date_to and date_from queries are in Eastern Time (ET), by default.
 </aside>
 
-##Topups Reports (Search)
+##Topups Search by Client Transaction Id
 
-> Request:
+**Request:**
 
 ```javascript
-PLACE CODE HERE
+idtBeyondIatu.clientTransactionIdSearch({dateFrom:'2015-03-01', dateTo:'2015-03-11', clientTransactionId:'my-client-trans-id'}).then(function(clientTransId){ ... });
 ```
+*The **clientTransId** variable inside the then method's callback will containd
+the promise's result*
 
-> Response:
+**Response:**
 
 ```json
 {
@@ -371,90 +343,67 @@ PLACE CODE HERE
          "currency_code":"USD",
          "currency_symbol":"$",
          "currency_divisor":"100",
-         "client_transaction_id":"transaction246",
-         "transaction_date":"2/2/2015 10:57:04 AM",
+         "client_transaction_id":"my-client-trans-id",
+         "transaction_date":"3/1/2015 10:57:04 AM",
          "description":"Success",
          "commission":"100",
          "type":"IMTU - CLARO UNIVERSAL $5",
          "end_balance":"56915",
          "amount":"-500",
-         "terminal_id":"this term is cool",
+         "terminal_id":"testTerminalId",
          "transaction_status":"Success",
-         "to_service_number":"1177741290"
+         "to_service_number":"117123456"
       }
    ]
 }
 ```
-Use this endpoint to search for the status of a particular topup transaction, using the unique **customer_transaction_id** you supplied in the request.
 
-### Endpoint
-
-`POST /v1/iatu/topups/reports`
-
-####Headers
-
-Parameter | Required | Type | Description
---------- | ------- | ---- | -----------
-x-idt-beyond-app-id | true | header | The ID of the application you would like to use. __Use:__ `x-idt-beyond-app-id: APP-ID` (__Ex:__ If your APP-ID is 3456c92, **x-idt-beyond-app-id: 3456c92**)
-x-idt-beyond-app-key | true | header | One of the valid keys for the application you would like to use. __Use:__ `x-idt-beyond-app-key: APP-KEY` (__Ex:__ If your APP-KEY is abcd1234efgh56789ijkl, **x-idt-beyond-app-key: abcd1234efgh56789ijkl**)
-
-
-####Body Parameters
+####Parameters
 
 Parameter | Required | Class | Type | Description
 --------- | ------- | ----- | ----- | -----------
-typeOfReport | true | string | application/json | The field we are using to track this transaction by. (Ex. **client_transaction_id**).
 dateFrom | true | string | application/json | YYYY-MM-DD format. Starts at 00:00:00 Eastern Time (ET). (Ex: **2015-12-01**).
 dateTo | true | string | application/json | YYYY-MM-DD format. Ends at 23:59:59 Eastern Time (ET). (Ex: **2015-12-01**).
 clientTransactionId | true | string | application/json | A unique id you use to track topups (Limit of 20 characters).
 
-<aside class="notice">
-On a POST, the `Content-type` is `application/json`, and the parameters are contained in the body.
+<aside class="success">
+Remember — All dateTo and dateFrom queries are in Eastern Time (ET), by default.
 </aside>
 
-<aside class="success">
-Remember — All date_to and date_from queries are in Eastern Time (ET), by default.
-</aside>
 
 ##Topups (Reverse)
 
+Use this method to search for the status of a particular topup transaction, using the unique **customer_transaction_id** you supplied in the request, and use the **"to_service_number"**.
+
 Occasionally, a carrier will not be able to successfully complete a topup request. In this case, we will attempt to automatically reverse the transaction for you, and return the money into your account. In the case when this is not possible, you may need to request a reverse on the transaction that has a status of **"transaction_status": "notredeemed"**.
 
-> Request:
+
+
+**Request:**
 
 ```javascript
-PLACE CODE HERE
+idtBeyondIatu.reverseTopup({toServiceNumber:'2712345678', clientTransactionId:'my-client-trans-id'}).then(function(result){ ... });
 ```
+*The **result** variable inside the then method's callback will containd
+the promise's result*
 
-> Response:
+**Response:**
 
 ```json
 {
    "success":true,
    "account_id":"12345678",
-   "client_transaction_id":"RollMeBackPlease-rev",
+   "client_transaction_id":"my-client-trans-id",
    "transaction_id":"111222333",
-   "to_service_number":"0777948847",
+   "to_service_number":"2712345678",
    "remaining_amount":0,
    "currency_symbol":"$",
    "currency_divisor":"100"
 }
 ```
-Use this endpoint to search for the status of a particular topup transaction, using the unique **customer_transaction_id** you supplied in the request, and use the **"to_service_number"**.
-
-### Endpoint
-
-`POST /v1/iatu/topups/reports`
-
-####Headers
-
-Parameter | Required | Type | Description
---------- | ------- | ---- | -----------
-x-idt-beyond-app-id | true | header | The ID of the application you would like to use. __Use:__ `x-idt-beyond-app-id: APP-ID` (__Ex:__ If your APP-ID is 3456c92, **x-idt-beyond-app-id: 3456c92**)
-x-idt-beyond-app-key | true | header | One of the valid keys for the application you would like to use. __Use:__ `x-idt-beyond-app-key: APP-KEY` (__Ex:__ If your APP-KEY is abcd1234efgh56789ijkl, **x-idt-beyond-app-key: abcd1234efgh56789ijkl**)
 
 
-####Body Parameters
+####Parameters
 
 Parameter | Required | Class | Type | Description
 --------- | ------- | ----- | -------- | -----------
@@ -468,55 +417,57 @@ On a POST, the `Content-type` is `application/json`, and the parameters are cont
 
 ## Charges Reports (all)
 
-> Request:
+Returns a list of any credit card charges, wire-transfers, or credit adjustments on your application account.
+**Request:**
 
 ```javascript
-PLACE CODE HERE
-```
+idtBeyondIatu.getAllCharges({dateFrom:'2015-03-01', dateTo:'2015-03-11'}).then(function(charges){ ... });```
 
-> Response:
+*The **charges** variable inside the then method's callback will containd
+the promise's result*
+
+**Response:**
 
 ```json
-[
-   {
-      "account_id":"12345678",
-      "amount":"100000",
-      "currency_code":"USD",
-      "currency_symbol":"$",
-      "currency_divisor":"100",
-      "date":"2015-01-16 03:13:09",
-      "start_balance":"0",
-      "end_balance":"100000",
-      "service_number":"03333333333",
-      "transaction_id":"111222333",
-      "type":"Credit"
-   }
-]
+{
+   "success":true,
+   "totals":{
+      "purchases":"0",
+      "transfers":"0",
+      "commissions":"0",
+      "transactions_count":"1",
+      "actual_last_transaction_date":"2015-03-02T20:04:45",
+      "query_start_date":"2015-03-01",
+      "query_end_date":"2015-03-11"
+   },
+   "transactions":[
+      {
+         "mobile_phone_number":"",
+         "production_pin":"",
+         "client_transaction_id":"12345678",
+         "currency_code":"US",
+         "currency_symbol":"$",
+         "currency_divisor":"100",
+         "transaction_date":"2015-03-02T20:04:44",
+         "transaction_method":"CREDIT_LOAD",
+         "transaction_description":"Credit Load",
+         "transaction_amount":"100000",
+         "retail_commission":"0",
+         "account_start_balance":"0",
+         "account_end_balance":"100000",
+         "product_name":"CREDIT_LOAD"
+      }
+   ]
+}
 ```
-Returns a list of any credit card charges, wire-transfers, or credit adjustments on your application account.
-
-### Endpoint
-
-`GET /v1/iatu/charges/reports/all`
-
-####Headers
-
-Parameter | Required | Type | Description
---------- | ------- | ---- | -----------
-x-idt-beyond-app-id | true | header | The ID of the application you would like to use. __Use:__ `x-idt-beyond-app-id: APP-ID` (__Ex:__ If your APP-ID is 3456c92, **x-idt-beyond-app-id: 3456c92**)
-x-idt-beyond-app-key | true | header | One of the valid keys for the application you would like to use. __Use:__ `x-idt-beyond-app-key: APP-KEY` (__Ex:__ If your APP-KEY is abcd1234efgh56789ijkl, **x-idt-beyond-app-key: abcd1234efgh56789ijkl**)
 
 
-####Query String Parameters
+####Parameters
 
 Parameter | Required | Type | Description
 --------- | ------- | ----- | -----------
 dateFrom | true | query | YYYY-MM-DD format. Starts at 00:00:00 Eastern Time (ET). (Ex: 2015-12-01).
 dateTo | true | query | YYYY-MM-DD format. Ends at 23:59:59 Eastern Time (ET). (Ex: 2015-12-01).
-
-<aside class="notice">
-Query strings follow the URL with the `?`, and are strung together with the `&` symbol.
-</aside>
 
 <aside class="success">
 Remember — All date_to and date_from queries are in Eastern Time (ET), by default.
@@ -524,42 +475,30 @@ Remember — All date_to and date_from queries are in Eastern Time (ET), by defa
 
 ##Number Validator
 
-> Request:
+This method validates that a phone number has a valid area code and number of digits for the selected country.
+
+**Request:**
 
 ```javascript
-PLACE CODE HERE
+idtBeyondIatu.validateNumber({phoneNumber:'50247123456', countryCode:'GT'}).then(function(result){ ... });
 ```
 
-> Response:
+*The **result** variable inside the then method's callback will containd
+the promise's result*
+
+**Response:**
 
 ```json
 {
-   "country_code":"BR",
-   "mobile_number":"5521983339000",
+   "country_code":"GT",
+   "mobile_number":"50247123456",
    "valid":true
 }
 ```
-Use this tool to verify that a number uses the correct area code and number of digits for the selected country.
 
-### Endpoint
-
-`GET /v1/iatu/number-validator`
-
-####Headers
-
-Parameter | Required | Type | Description
---------- | ------- | ---- | -----------
-x-idt-beyond-app-id | true | header | The ID of the application you would like to use. __Use:__ `x-idt-beyond-app-id: APP-ID` (__Ex:__ If your APP-ID is 3456c92, **x-idt-beyond-app-id: 3456c92**)
-x-idt-beyond-app-key | true | header | One of the valid keys for the application you would like to use. __Use:__ `x-idt-beyond-app-key: APP-KEY` (__Ex:__ If your APP-KEY is abcd1234efgh56789ijkl, **x-idt-beyond-app-key: abcd1234efgh56789ijkl**)
-
-####Query String Parameters
+####Parameters
 
 Parameter | Required | Type | Description
 --------- | ------- | ------------ | -----------
 countryCode | true | query | 2-digit code of the country in ISO 3166 format. (Ex: **BR** for Brazil).
-mobileNumber | true | query | Mobile number to topup. VALIDATE prior to submission. (Ex: **5521983339000**).
-
-<aside class="success">
-The number validation tool is automatically used when submitting a topup request.
-</aside>
->>>>>>> Stashed changes
+phoneNumber | true | query | Mobile number to topup. VALIDATE prior to submission. (Ex: **5521983339000**).

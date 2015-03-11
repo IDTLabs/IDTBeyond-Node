@@ -79,7 +79,7 @@ describe('IDT Beyond API', function() {
               .get('/v1/iatu/number-validator?country_code=CC&mobile_number=phone-number');
           var idtBeyondIatu = idtBeyondApi.initializeIatu({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           done();
-          expect(idtBeyondIatu.validateNumber({countryCode: 'CC', mobileNumber: 'phone-number'}).isDone()).toBe(true);
+          expect(idtBeyondIatu.validateNumber({countryCode: 'CC', phoneNumber: 'phone-number'}).isDone()).toBe(true);
         });
       });
 
