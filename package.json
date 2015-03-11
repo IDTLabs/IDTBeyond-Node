@@ -1,8 +1,8 @@
 {
   "name": "idtbeyond-node",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "The official node package for interacting with the IDT Beyond API for performing a topup.",
-  "main": "lib/idt-beyond.js",
+  "main": "./index",
   "scripts": {
     "test": "./node_modules/.bin/jasmine -verbose=true ./spec/*.js"
   },
