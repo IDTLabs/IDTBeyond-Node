@@ -164,7 +164,7 @@ This call allows you get the balance on a specific application.
 **Request:**
 
 ```javascript
-idtBeyondIatu.getBalance().done(function (results) { ... });
+idtBeyondIatu.getBalance().then(function (results) { ... });
 ```
 
 *The **results** variable inside the then method's callback will contain
