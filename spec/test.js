@@ -204,14 +204,33 @@ describe('IDT Beyond API', function() {
               .matchHeader('x-idt-beyond-app-key', 'app-key')
               .post('/v1/iatu/topups/reports', function(body){
                 return body.client_transaction_id === "client-transaction-id" &&
-                    body.date_from === "date-from" && body.date_to === 'data-to';
+                    body.date_from === "date-from" && body.date_to === 'data-to' &&
+                    body.type_of_report === 'client_transaction_id';
               });
           var idtBeyondIatu = idtBeyondApi.initializeIatu({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           deferred.resolve({status: true});
           done();
 
-          expect(idtBeyondIatu.reverseTopup(
+          expect(idtBeyondIatu.clientTransactionIdSearch(
               {clientTransactionId: 'client-transaction-id', dateFrom: 'date-from', dataTo: 'date-to'}).isDone())
+              .toBe(true);
+        });
+      });
+      describe('toServiceNumberSearch()', function(){
+        it("should call /v1/iatu/topups/reports", function(done) {
+          var deferred = when.defer();
+          var api = nock(url)
+              .matchHeader('x-idt-beyond-app-id', 'app-id')
+              .matchHeader('x-idt-beyond-app-key', 'app-key')
+              .post('/v1/iatu/topups/reports', function(body){
+                return body.to_service_number === "to-service-number" && body.type_of_report === 'to_service_number';
+              });
+          var idtBeyondIatu = idtBeyondApi.initializeIatu({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
+          deferred.resolve({status: true});
+          done();
+
+          expect(idtBeyondIatu.toServiceNumberSearch(
+              {toServiceNumber: 'to-service-number'}).isDone())
               .toBe(true);
         });
       });
