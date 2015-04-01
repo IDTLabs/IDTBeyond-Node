@@ -343,7 +343,7 @@ dateTo | true | string | YYYY-MM-DD format. Ends at 23:59:59 Eastern Time (ET). 
 Remember — All date_to and date_from queries are in Eastern Time (ET), by default.
 </aside>
 
-##Topups Search by Client Transaction Id
+##Topups Reports (Search)
 
 **Request:**
 
@@ -352,11 +352,10 @@ idtBeyondIatu.clientTransactionIdSearch({
 	dateFrom: '2015-03-01',
 	dateTo: '2015-03-11',
 	clientTransactionId: 'my-client-trans-id'
-}).then(function (clientTransId) { ... });
+}).then(function (result) { ... });
 ```
 
-*The **clientTransId** variable inside the then method's callback will contain
-the promise's result.*
+*The **result** variable inside the then method's callback will contain the promise's result.*
 
 **Response:**
 
@@ -396,13 +395,42 @@ Remember — All dateTo and dateFrom queries are in Eastern Time (ET), by defaul
 </aside>
 
 
+##Topups Reports (Quick Status)
+
+**Request:**
+
+```javascript
+idtBeyondIatu.toServiceNumberSearch({
+	toServiceNumber: "0123456789"
+}).then(function (result) { ... });
+```
+*The **result** variable inside the then method's callback will contain the promise's result.*
+
+**Response:**
+
+```json
+{
+	"success": true,
+	"transaction_data": {
+		"balance": "0",
+		"status": "Redeemed"
+	}
+}
+```
+When you submit a transaction, we do some very detailed handling to complete the request. The **toServiceNumber** is a tracking method used to follow the status of this request, including the balance of the transaction handoff to the carrier. Use this endpoint to get a quick update on the status of the request.
+
+####Parameters
+
+Parameter | Required | Type | Description
+--------- | ------- | ----- | -----------
+toServiceNumber | true | string | A unique IDT transaction number that gives the status of the transfer of funds from your account to the carrier.
+
+
 ##Topups (Reverse)
 
-Use this method to search for the status of a particular topup transaction, using the unique **customer_transaction_id** you supplied in the request, and use the **"to_service_number"**.
+Use this method to search for the status of a particular topup transaction, using the unique **clientTransactionId** you supplied in the request, and use the **toServiceNumber**.
 
-Occasionally, a carrier will not be able to successfully complete a topup request. In this case, we will attempt to automatically reverse the transaction for you, and return the money into your account. In the case when this is not possible, you may need to request a reverse on the transaction that has a status of **"transaction_status": "notredeemed"**.
-
-
+Occasionally, a carrier will not be able to successfully complete a topup request. In this case, we will attempt to automatically reverse the transaction for you, and return the money into your account. In the case when this is not possible, you may need to request a reverse on the transaction that has a status of **"status": "Not Redeemed"**.
 
 **Request:**
 
