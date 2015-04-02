@@ -264,7 +264,7 @@ the promise's result.*
    },
    "transactions":[
       {
-         "mobile_phone_number":"50212345678",
+         "mobile_number":"50212345678",
          "production_pin":"0000000001",
          "client_transaction_id":"Transaction123456",
          "currency_code":"US",
@@ -494,7 +494,7 @@ the promise's result.*
    },
    "transactions":[
       {
-         "mobile_phone_number":"",
+         "mobile_number":"",
          "production_pin":"",
          "client_transaction_id":"12345678",
          "currency_code":"US",
