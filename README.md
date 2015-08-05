@@ -9,7 +9,7 @@ The official node package for interacting with the IDT Beyond API.
 
 ## Getting started with IDT Beyond
 
-To use this service, sign up for a free account at: [https://portal.idtbeyond.com](https://portal.idtbeyond.com), or read the documentation at [https://portal.idtbeyond.com/docs](https://portal.idtbeyond.com/docs).
+To use this service, sign up for a free account at: [https://app.idtbeyond.com](https://app.idtbeyond.com), or read the documentation at [https://app.idtbeyond.com/docs](https://app.idtbeyond.com/docs).
 
 ## Requirements
 
