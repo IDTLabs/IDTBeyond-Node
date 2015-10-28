@@ -166,7 +166,7 @@ describe('IDT Beyond API', function() {
               .post('/v1/iatu/topups', function(body){
                 return body.country_code === "CC" && body.carrier_code === "CasdC" &&
                     body.mobile_number === 'phone-number' &&  body.amount === 'amount' &&
-                    body.terminal_id === "term-id";
+                    body.terminal_id === "term-id" && body.productCode === 'product-code';
               });
           var idtBeyondIatu = idtBeyondApi.initializeIatu({appId: 'app-id', appKey: 'app-key', termId: 'term-id'});
           deferred.resolve({status: true});
