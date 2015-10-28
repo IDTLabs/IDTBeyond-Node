@@ -1,6 +1,6 @@
 {
   "name": "idtbeyond",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "The official node package for interacting with the IDT Beyond API for performing a topup.",
   "main": "./index",
   "scripts": {
@@ -24,9 +24,11 @@
   },
   "homepage": "https://github.com/IDTLabs/IDTBeyond-Node",
   "devDependencies": {
+    "async": "^1.5.0",
     "jasmine": "^2.2.1",
     "jasmine-node": "^1.14.5",
-    "nock": "^1.1.0"
+    "nock": "^2.15.0",
+    "readable-stream": "^2.0.3"
   },
   "dependencies": {
     "request": "^2.53.0",
