@@ -188,6 +188,7 @@ This is how you topup a phone in another country.
 
 ```javascript
 idtBeyondIatu.postTopup({
+  productCode: '76560',
 	countryCode: 'GT',
 	carrierCode: 'Claro',
 	amount: 500,
