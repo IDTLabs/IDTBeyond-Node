@@ -234,6 +234,7 @@ carrierCode | true | string | Name of the mobile carrier. (Ex: **Claro**).
 amount | true | integer | This is the amount, in cents, of the product you are purchasing. (Ex: **500** = $5.00).
 phoneNumber | true | string | Mobile number to topup. VALIDATE prior to submission. (Ex: **50312345678**).
 productCode | false | string | There may be several products that share similar Country, Carrier, and Amounts, but may actually be different products. Use the product_code to specify which one you would like.
+plan | false | string | If you have production account and want to transfer real money, use `Production` plan (default: `Sandbox`)
 
 > We have **three ways** of generating a clientTransactionId. 
 
